@@ -59,7 +59,9 @@ class MainActivity : AppCompatActivity(), MainAdapter.IItemClickListener {
                 position: Int,
                 id: Long
             ) {
+                //將甚麼放入Spinner
                 currentCounty = binding.spinnerCounty.selectedItem.toString()
+                //選擇縣市後去呼叫這個方法
                 setSpinnerTown()
             }
 
@@ -114,6 +116,7 @@ class MainActivity : AppCompatActivity(), MainAdapter.IItemClickListener {
         setSpinnerTown()
     }
 
+    //根據縣市，來選其他鄉鎮
     private fun setSpinnerTown() {
         val adapterTown = ArrayAdapter(
             this,
@@ -124,6 +127,8 @@ class MainActivity : AppCompatActivity(), MainAdapter.IItemClickListener {
         binding.spinnerTown.setSelection(CountyUtil.getTownIndexByName(currentCounty, currentTown))
     }
 
+
+    //取得那6000筆資料
     private fun getPharmacyData() {
         //顯示忙碌圈圈
         binding.progressBar.visibility = View.VISIBLE
@@ -132,6 +137,7 @@ class MainActivity : AppCompatActivity(), MainAdapter.IItemClickListener {
             override fun onResponse(response: Response) {
                 val pharmaciesData = response.body?.string()
 
+                //將資料轉為GSON
                 pharmacyInfo = Gson().fromJson(pharmaciesData, PharmacyInfo::class.java)
 
                 runOnUiThread {
@@ -161,6 +167,7 @@ class MainActivity : AppCompatActivity(), MainAdapter.IItemClickListener {
 
     private fun updateRecyclerView() {
 
+        //使用.filter(漏斗)來過濾資料，要漏出甚麼資料由.filter{條件}大括號內決定
         val filterData =
             pharmacyInfo?.features?.filter {
                 it.properties.county == currentCounty && it.properties.town == currentTown

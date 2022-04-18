@@ -95,6 +95,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWin
 
     private fun getLocationPermission() {
         //檢查權限
+        //PERMISSION_GRANTED是否被同意
         if (ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -109,6 +110,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWin
         }
     }
 
+    //檢查GPS狀態
     private fun checkGPSState() {
         val locationManager = mContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
@@ -131,6 +133,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWin
 
     private fun getDeviceLocation() {
         try {
+            //確認是否拿到權限
             if (locationPermissionGranted
             ) {
                 val locationRequest = LocationRequest()
@@ -191,6 +194,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWin
                 )
 
             } else {
+                //沒那到權限，去詢問權限
                 getLocationPermission()
             }
         } catch (e: SecurityException) {
@@ -261,6 +265,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnInfoWin
         }
     }
 
+    //當GPS狀態未開啟時，會導引使用者去設定頁開啟GPS
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {

@@ -1,8 +1,6 @@
 package com.thishkt.pharmacydemo.util
-
 import okhttp3.*
 import okio.IOException
-
 
 class OkHttpUtil {
     private var mOkHttpClient: OkHttpClient? = null
@@ -17,7 +15,6 @@ class OkHttpUtil {
         //Part 1: 宣告 OkHttpClient
         mOkHttpClient = OkHttpClient().newBuilder().build()
     }
-
     //Get 非同步
     fun getAsync(url: String, callback: ICallback) {
         //Part 2: 宣告 Request，要求要連到指定網址
@@ -26,7 +23,6 @@ class OkHttpUtil {
             get()
             build()
         }
-
         //Part 3: 宣告 Call
         val call = mOkHttpClient?.newCall(request)
 
@@ -41,14 +37,9 @@ class OkHttpUtil {
                 callback.onResponse(response)
             }
         })
-
-
     }
-
-
     interface ICallback {
         fun onResponse(response: Response)
-
         fun onFailure(e: IOException)
     }
 }
